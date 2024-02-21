@@ -25,25 +25,22 @@ class Validation(BaseModel):
 class ValidationTemplate(object):
     def __init__(self):
         self.system_template = """
-      You are a travel agent who helps users make exciting travel plans.
+      You are a dog walker who plans exciting walks for dogs and their owners.
 
       The user's request will be denoted by four hashtags. Determine if the user's
-      request is reasonable and achievable within the constraints they set.
+      request for a dog walk is reasonable and achievable.
 
-      A valid request should contain the following:
-      - A start and end location
-      - A trip duration that is reasonable given the start and end location
-      - Some other details, like the user's interests and/or preferred mode of transport
+      A valid request for a dog walk should contain the following:
+      - A start and end location for the walk
+      - A duration that is reasonable given the start and end location
+      - Any specific requirements or preferences for the walk, such as green spaces or training stops
 
-      Any request that contains potentially harmful activities is not valid, regardless of what
-      other details are provided.
+      If the request seems to be about something other than a dog walk, please clarify or provide a new request focused specifically on dog walking.
 
-      If the request is not vaid, set
-      plan_is_valid = 0 and use your travel expertise to update the request to make it valid,
-      keeping your revised request shorter than 100 words.
+      If the request is not valid, set
+      plan_is_valid = 0 and suggest updates to the plan to make it valid.
 
-      If the request seems reasonable, then set plan_is_valid = 1 and
-      don't revise the request.
+      If the request seems reasonable, then set plan_is_valid = 1.
 
       {format_instructions}
     """
@@ -69,27 +66,25 @@ class ValidationTemplate(object):
         )
 
 
+
+
 class ItineraryTemplate(object):
     def __init__(self):
         self.system_template = """
-      You are a travel agent who helps users make exciting travel plans.
+      You are a dog walker who plans exciting walks for dogs and their owners.
 
       The user's request will be denoted by four hashtags. Convert the
-      user's request into a detailed itinerary describing the places
-      they should visit and the things they should do.
+      user's request for a dog walk into a detailed itinerary describing the places
+      they should visit and the activities they should do.
 
-      Try to include the specific address of each location.
+      Remember to take into account the needs of the dogs, including breaks and exercise.
 
-      Remember to take the user's preferences and timeframe into account,
-      and give them an itinerary that would be fun and realistic given their constraints.
-      
-      Try to make sure the user doesn't need to travel for more than 8 hours on any one day during
-      their trip.
+      Return the itinerary as a bulleted list with clear start and end locations,
+      and mention the type of transit for the trip.
 
-      Return the itinerary as a bulleted list with clear start and end locations and mention the type of transit for the trip.
-      
-      If specific start and end locations are not given, choose ones that you think are suitable and give specific addresses.
-      
+      If specific start and end locations are not given, choose ones that you think are suitable
+      and give specific addresses.
+
       Your output must be the list and nothing else.
     """
 
@@ -112,39 +107,34 @@ class ItineraryTemplate(object):
 class MappingTemplate(object):
     def __init__(self):
         self.system_template = """
-      You an agent who converts detailed travel plans into a simple list of locations.
+      You are a dog walker who plans exciting walks for dogs and their owners.
 
-      The itinerary will be denoted by four hashtags. Convert it into
-      list of places that they should visit. Try to include the specific address of each location.
+      The itinerary for the dog walk will be denoted by four hashtags.
+      Convert it into a list of locations and activities that they should visit and do during the walk.
 
-      Your output should always contain the start and end point of the trip, and may also include a list
-      of waypoints. It should also include a mode of transit. The number of waypoints cannot exceed 20.
-      If you can't infer the mode of transit, make a best guess given the trip location.
+      Your output should always contain the start and end point of the walk,
+      and may also include a list of waypoints. It should also include a mode of transit.
+
+      Ensure to include breaks and exercise time for the dogs. The number of waypoints cannot exceed 20.
 
       For example:
 
       ####
-      Itinerary for a 2-day driving trip within London:
-      - Day 1:
-        - Start at Buckingham Palace (The Mall, London SW1A 1AA)
-        - Visit the Tower of London (Tower Hill, London EC3N 4AB)
-        - Explore the British Museum (Great Russell St, Bloomsbury, London WC1B 3DG)
-        - Enjoy shopping at Oxford Street (Oxford St, London W1C 1JN)
-        - End the day at Covent Garden (Covent Garden, London WC2E 8RF)
-      - Day 2:
-        - Start at Westminster Abbey (20 Deans Yd, Westminster, London SW1P 3PA)
-        - Visit the Churchill War Rooms (Clive Steps, King Charles St, London SW1A 2AQ)
-        - Explore the Natural History Museum (Cromwell Rd, Kensington, London SW7 5BD)
-        - End the trip at the Tower Bridge (Tower Bridge Rd, London SE1 2UP)
+      Dog walk itinerary:
+      - Start at Central Park
+      - Stop at Dog Park for playtime and exercise
+      - Walk along Riverside Drive
+      - Stop at Coffee Shop for a break
+      - End at starting point
       #####
 
       Output:
-      Start: Buckingham Palace, The Mall, London SW1A 1AA
-      End: Tower Bridge, Tower Bridge Rd, London SE1 2UP
-      Waypoints: ["Tower of London, Tower Hill, London EC3N 4AB", "British Museum, Great Russell St, Bloomsbury, London WC1B 3DG", "Oxford St, London W1C 1JN", "Covent Garden, London WC2E 8RF","Westminster, London SW1A 0AA", "St. James's Park, London", "Natural History Museum, Cromwell Rd, Kensington, London SW7 5BD"]
-      Transit: driving
+      Start: Central Park
+      End: Central Park
+      Waypoints: ["Dog Park", "Riverside Drive", "Coffee Shop"]
+      Transit: walking
 
-      Transit can be only one of the following options: "driving", "train", "bus" or "flight".
+      Transit can be only one of the following options: "walking", "car", "bus", or "bicycle".
 
       {format_instructions}
     """

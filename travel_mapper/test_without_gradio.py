@@ -1,7 +1,6 @@
 from travel_mapper.TravelMapper import load_secrets, assert_secrets
 from travel_mapper.TravelMapper import TravelMapperBase
 
-
 def test(query=None):
     secrets = load_secrets()
     assert_secrets(secrets)
